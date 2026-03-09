@@ -1,17 +1,81 @@
 package com.kpi;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import com.kpi.model.*;
+import com.kpi.Service.Service;
+
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Library library = new Library();
+        Scanner scanner = new Scanner(System.in);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        while (true) {
+
+            System.out.println("1. Додати книгу");
+            System.out.println("2. Додати читача");
+            System.out.println("3. Взяти книгу");
+            System.out.println("4. Повернути книгу");
+            System.out.println("5. Показати книги");
+            System.out.println("0. Вихід");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    System.out.println("ID:");
+                    int id = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.println("Назва:");
+                    String title = scanner.nextLine();
+
+                    System.out.println("Автор:");
+                    String author = scanner.nextLine();
+
+                    library.addBook(new Book(id, title, author));
+                    break;
+
+                case 2:
+                    System.out.println("ID:");
+                    int rId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.println("Ім'я:");
+                    String name = scanner.nextLine();
+
+                    library.addReader(new Reader(rId, name));
+                    break;
+
+                case 3:
+                    System.out.println("Reader ID:");
+                    int readerId = scanner.nextInt();
+
+                    System.out.println("Book ID:");
+                    int bookId = scanner.nextInt();
+
+                    System.out.println(library.borrowBook(readerId, bookId));
+                    break;
+
+                case 4:
+                    System.out.println("Reader ID:");
+                    readerId = scanner.nextInt();
+
+                    System.out.println("Book ID:");
+                    bookId = scanner.nextInt();
+
+                    System.out.println(library.returnBook(readerId, bookId));
+                    break;
+
+                case 5:
+                    library.getBooks().forEach(b ->
+                            System.out.println(b.getTitle() + " " + b.isAvailable()));
+                    break;
+
+                case 0:
+                    return;
+            }
         }
     }
 }
